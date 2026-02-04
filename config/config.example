@@ -1,0 +1,31 @@
+###############################################################################
+# Get 笔记知识库问答 Skill 配置文件
+#
+# 使用说明：
+# 1. 复制本文件为 config.yaml：cp config.example config.yaml
+# 2. 填写你的 API Token 和知识库 ID
+# 3. 运行脚本时会自动读取配置
+###############################################################################
+
+# Get 笔记 API Token（必填）
+# 获取方式：Get 笔记 Web 版 -> 知识库 -> API 设置
+GETNOTE_API_TOKEN="your_api_token_here"
+
+# 知识库 ID（必填）
+# 获取方式：Get 笔记 Web 版 -> 知识库 -> API 设置
+KNOWLEDGE_BASE_ID="your_knowledge_base_id_here"
+
+# 默认返回结果数量（可选，默认 10）
+DEFAULT_TOP_K=10
+
+# API 基础 URL（一般不需要修改）
+API_BASE_URL="https://open-api.biji.com/getnote/openapi"
+
+# 输出格式（可选：json、formatted）
+OUTPUT_FORMAT="formatted"
+
+# 是否保存原始 JSON 响应（可选：true、false）
+SAVE_RAW_RESPONSE=true
+
+# 原始响应保存目录（可选）
+RAW_RESPONSE_DIR="./responses"

@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Skill
+metadata:
+  name: get-note-qa
+  version: 1.0.0
+  displayName: "Get 笔记知识库问答"
+  description: "通过 Get 笔记 API 调用知识库进行智能问答和笔记检索"
+  author: "Claudian"
+  license: MIT
+  homepage: https://github.com/yourusername/get-note-qa-skill
+  repository: https://github.com/yourusername/get-note-qa-skill.git
+  tags:
+    - get-note
+    - knowledge-base
+    - qa
+    - api
+    - chinese
+
+spec:
+  # Skill 类型
+  type: api-integration
+
+  # 支持的执行环境
+  runtime:
+    - shell
+    - bash
+
+  # 入口点
+  entrypoint: src/main.sh
+
+  # 配置模式
+  config:
+    type: file
+    path: config/config.yaml
+    example: config/config.example
+
+  # 所需工具
+  requires:
+    - curl
+    - jq
+
+  # 环境变量
+  env:
+    - name: GETNOTE_API_TOKEN
+      description: "Get 笔记 API Token"
+      required: true
+      sensitive: true
+
+    - name: KNOWLEDGE_BASE_ID
+      description: "知识库 ID"
+      required: true
+
+    - name: DEFAULT_TOP_K
+      description: "默认返回结果数量"
+      required: false
+      default: "10"
+
+  # 参数定义
+  parameters:
+    - name: question
+      type: string
+      description: "要问的问题"
+      required: true
+
+    - name: top_k
+      type: integer
+      description: "返回结果数量（默认 10）"
+      required: false
+      default: 10
+      min: 1
+      max: 50
+
+  # 输出格式
+  output:
+    format: json
+    example: |
+      {
+        "h": {"c": 0, "e": "", "s": 1770107578, "t": 529},
+        "c": {
+          "data": [
+            {
+              "id": "note_id_here",
+              "title": "笔记标题",
+              "content": "笔记内容摘要...",
+              "score": 0.95,
+              "type": "NOTE"
+            }
+          ]
+        }
+      }
+
+  # 使用示例
+  examples:
+    - description: "查询历史笔记"
+      command: |
+        ./src/main.sh \
+          "your_api_token" \
+          "rYMRBRP0" \
+          "五代十国历史" \
+          20
+
+    - description: "查询最近笔记"
+      command: |
+        ./src/main.sh \
+          "your_api_token" \
+          "rYMRBRP0" \
+          "最近的学习笔记"
+
+# 安装说明
+install:
+  steps:
+    - name: "克隆仓库"
+      command: "git clone https://github.com/yourusername/get-note-qa-skill.git"
+
+    - name: "配置文件"
+      command: "cp config/config.example config/config.yaml"
+
+    - name: "编辑配置"
+      command: "vim config/config.yaml  # 填写 API Token 和知识库 ID"
+
+    - name: "赋予权限"
+      command: "chmod +x src/main.sh"
+
+    - name: "测试运行"
+      command: "./src/main.sh <your_token> <your_kb_id> '测试问题'"
+
+# 依赖检查
+dependencies:
+  - name: curl
+    check: "curl --version"
+    install:
+      ubuntu: "apt-get install curl"
+      macos: "brew install curl"
+
+  - name: jq
+    check: "jq --version"
+    install:
+      ubuntu: "apt-get install jq"
+      macos: "brew install jq"

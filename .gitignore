@@ -1,0 +1,21 @@
+# 配置文件（包含敏感信息）
+config/config.yaml
+
+# API 响应文件
+responses/
+*.json
+
+# 临时文件
+*.tmp
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
